@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js" integrity="sha256-xH4q8N0pEzrZMaRmd7gQVcTZiFei+HfRTBPJ1OGXC0k=" crossorigin="anonymous"></script>
+    
+
+</head>
+<body>
+    <style>
+        #box{
+            height:100px;
+            width:420px;
+            border: 1px solid black;
+        }
+
+        #box div{
+            margin: 5px;
+        }
+    </style>
+    <div id = "draggable">
+        <div id = "box">
+            <div style="display:inline">Symbol:</div><div name="" id = "Symbol" style="display:inline" ></div><div></div>
+            <div style="display:inline">Date:</div><div name="" id = "Date" style="display:inline" ></div><div></div>
+            
+            <div style="display:inline">LTP:</div><div name="" id = "LTP" style="display:inline" ></div><div></div>
+            <div style="display:inline">Open:</div><div id = "Open" style="display:inline; margin-right: 50px;"></div>
+            <div style="display:inline">High:</div><div id = "High" style="display:inline; margin-right:50px"></div>
+            <div style="display:inline">Low:</div><div id = "Low" style="display:inline"></div>
+        </div>
+    </div>
+    <script>
+        
+        $( function() {
+            $( "#box" ).draggable();
+        } );
+
+        const ws = new WebSocket("ws://localhost:8000/ws")
+        ws.onmessage = function(event){
+            const stockdata = JSON.parse(event.data)
+            console.log(stockdata)
+            $("#Symbol").text(stockdata.Symbol)
+            $("#Date").text(stockdata.Date)
+            $("#LTP").text(stockdata.Close)
+            $("#Open").text(stockdata.Open)
+            $("#High").text(stockdata.High)
+            $("#Low").text(stockdata.Low)
+        }
+    </script>
+</body>
+</html>
